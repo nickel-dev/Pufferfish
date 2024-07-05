@@ -26,6 +26,15 @@
 *.a
 *.lib
 
+# Config Files
+.*
+.vscode/
+*.pdb
+
+# Build Files
+build/
+build-int/
+
 # Executables
 *.exe
 *.out
