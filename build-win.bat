@@ -16,5 +16,3 @@ set libs=gdi32.lib user32.lib shell32.lib opengl32.lib SDL2.lib SDL2main.lib SDL
 pushd build-int
 cl %code% %incs% /Fe%target% %opts% /link /LIBPATH:%libdir% %libs% %lopts%
 popd
-
-if "%errorlevel%"=="0" start %cd%\build\%project%.exe
