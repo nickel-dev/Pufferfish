@@ -1,10 +1,15 @@
 @echo off
 
 set project=Pufferfish
-set libdir=%cd%\lib\x64
+set config=x64
 
-if not exist build     mkdir build
-if not exist build-int mkdir build-int
+if not exist %cd%\build     mkdir %cd%\build
+if not exist %cd%\build-int mkdir %cd%\build-int
+
+if not exist %cd%\build\SDL2.dll        copy %cd%\lib\%config%\SDL2.lib       %cd%\build
+if not exist %cd%\build\SDL2_image.dll  copy %cd%\lib\%config%\SDL2_image.lib %cd%\build
+
+set libdir=%cd%\lib\%config%
 
 set opts=/EHsc /MD /std:c++20
 set lopts=/SUBSYSTEM:CONSOLE
@@ -17,4 +22,4 @@ pushd build-int
 cl %code% %incs% /Fe%target% %opts% /link /LIBPATH:%libdir% %libs% %lopts%
 popd
 
-if "%errorlevel%"=="0" start %cd%\build\%project%.exe
+if %errorlevel%==0 start %target%

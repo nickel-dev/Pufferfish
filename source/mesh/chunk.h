@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <glad/glad.h>
-#include <PerlinNoise.h>
 #include "../base/base_inc.h"
 
 #define CHUNK_WIDTH         32

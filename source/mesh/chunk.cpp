@@ -1,5 +1,5 @@
 #include "chunk.h"
-
+/*
 /// W_ChunkVertex, the vertex making up a W_Chunk mesh
 W_ChunkVertex::W_ChunkVertex()
 {
@@ -202,4 +202,4 @@ void W_Chunk::GenerateMesh()
     }
 
     mesh.SetupMesh();
-}
+}*/

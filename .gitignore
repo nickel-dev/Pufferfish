@@ -27,9 +27,13 @@
 *.lib
 
 # Config Files
-.*
 .vscode/
+.*
 *.pdb
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
 
 # Build Files
 build/

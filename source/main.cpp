@@ -7,7 +7,6 @@ local I32 frameCount;
 local U64 lastTime, lastFrameTime;
 local F32 deltaTime;
 local B8 keyboard[256] = { false };
-local FILE *logFile;
 
 local R_Window window;
 
@@ -45,6 +44,8 @@ int main(int argc, char **argv)
 		.vsync = true
 	};
 
+	window.Create();
+
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -81,7 +82,7 @@ int main(int argc, char **argv)
 				break;
 
 			case SDL_QUIT:
-				window.running = 0;
+				window.running = false;
 				break;
 
 			case SDL_WINDOWEVENT:
@@ -102,7 +103,6 @@ int main(int argc, char **argv)
 	}
 
 	// Deinitialize
-	fclose(logFile);
 	SDL_Quit();
 
 	return 0;
