@@ -44,3 +44,12 @@ void R_Window::SwitchFullscreen()
 	this->fullscreen = !this->fullscreen;
 	SDL_SetWindowFullscreen(this->window, this->WindowFlags());
 }
+
+void R_Window::Update()
+{
+	SDL_GL_SwapWindow(window);
+
+	glViewport(0, 0, width, height);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}

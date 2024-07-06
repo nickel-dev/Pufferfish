@@ -5,13 +5,14 @@
 struct R_Window
 {
 	I32 width, height;
-  std::string title;
+	std::string title;
 	B8 fullscreen;
 	B8 running;
 	SDL_Window *window;
 	B8 vsync;
 
-  void Create();
-  U32 WindowFlags();
+	void Create();
+	U32 WindowFlags();
 	void SwitchFullscreen();
+	void Update();
 };

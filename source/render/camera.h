@@ -1,11 +1,10 @@
 #pragma once
 
 #include "../base/base_inc.h"
-#include "../mesh/chunk.h"
 
 struct R_Camera
 {
-    glm::vec3 pos = glm::vec3(0.0f, CHUNK_HEIGHT, 0.0f);
+    glm::vec3 pos = glm::vec3(0.0f, 0.0f, 0.0f);
     glm::vec3 target = glm::vec3(0.0f, 0.0f, 0.0f);
 
     glm::vec3 front = glm::vec3(0.0f, 0.0f, 1.0f);

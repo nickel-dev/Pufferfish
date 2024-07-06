@@ -8,7 +8,6 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <glad/glad.h>
 #include "../base/base_inc.h"
 
 //-----------------------------------------------------------------------------
@@ -159,7 +158,7 @@ GLuint R_Shader::GetProgram() const
 //-----------------------------------------------------------------------------
 // Sets a glm::vec2 shader uniform
 //-----------------------------------------------------------------------------
-void R_Shader::SetUniform(const GLchar* name, const Vec2& v)
+void R_Shader::SetUniform(const GLchar* name, const glm::vec2& v)
 {
 	GLint loc = GetUniformLocation(name);
 	glUniform2f(loc, v.x, v.y);
@@ -168,7 +167,7 @@ void R_Shader::SetUniform(const GLchar* name, const Vec2& v)
 //-----------------------------------------------------------------------------
 // Sets a glm::vec3 shader uniform
 //-----------------------------------------------------------------------------
-void R_Shader::SetUniform(const GLchar* name, const Vec3& v)
+void R_Shader::SetUniform(const GLchar* name, const glm::vec3& v)
 {
 	GLint loc = GetUniformLocation(name);
 	glUniform3f(loc, v.x, v.y, v.z);
@@ -177,7 +176,7 @@ void R_Shader::SetUniform(const GLchar* name, const Vec3& v)
 //-----------------------------------------------------------------------------
 // Sets a glm::vec4 shader uniform
 //-----------------------------------------------------------------------------
-void R_Shader::SetUniform(const GLchar* name, const Vec4& v)
+void R_Shader::SetUniform(const GLchar* name, const glm::vec4& v)
 {
 	GLint loc = GetUniformLocation(name);
 	glUniform4f(loc, v.x, v.y, v.z, v.w);

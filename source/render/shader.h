@@ -7,9 +7,6 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <string>
-#include <map>
-#include <glad/glad.h>
 #include "../base/base_inc.h"
 
 using std::string;
@@ -33,9 +30,9 @@ public:
 
 	GLuint GetProgram() const;
 
-	void SetUniform(const GLchar* name, const Vec2& v);
-	void SetUniform(const GLchar* name, const Vec3& v);
-	void SetUniform(const GLchar* name, const Vec4& v);
+	void SetUniform(const GLchar* name, const glm::vec2& v);
+	void SetUniform(const GLchar* name, const glm::vec3& v);
+	void SetUniform(const GLchar* name, const glm::vec4& v);
 	void SetUniform(const GLchar* name, const F32* m);
 	void SetUniform(const GLchar* name, const I32 m);
 

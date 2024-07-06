@@ -2,24 +2,20 @@
 #include "render/shader.h"
 #include "render/camera.h"
 #include "render/window.h"
+#include "game/state.h"
 
-local I32 frameCount;
-local U64 lastTime, lastFrameTime;
-local F32 deltaTime;
-local B8 keyboard[256] = { false };
-
-local R_Window window;
+local G_State state;
 
 function void KeyPressCallback(U8 keycode)
 {
 	switch (keycode)
 	{
 	case SDL_SCANCODE_F11:
-		window.SwitchFullscreen();
+		state.window.SwitchFullscreen();
 		break;
 
 	default:
-		keyboard[keycode] = true;
+		state.keyboard[keycode] = true;
 		break;
 	}
 }
@@ -29,22 +25,23 @@ function void KeyReleaseCallback(U8 keycode)
 	switch (keycode)
 	{
 	default:
-		keyboard[keycode] = false;
+		state.keyboard[keycode] = false;
 		break;
 	}
 }
 
 int main(int argc, char **argv)
 {
-	window = R_Window{
+	state.window = R_Window{
 		.width = 1280,
 		.height = 720,
+		.title = "Pufferfish Sandbox", 
 		.fullscreen = false,
 		.running = true,
-		.vsync = true
+		.vsync = false
 	};
 
-	window.Create();
+	state.window.Create();
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
@@ -52,22 +49,8 @@ int main(int argc, char **argv)
   
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	while (window.running)
+	while (state.window.running)
 	{
-		{
-			U64 currentTime = SDL_GetTicks64();
-			deltaTime = (F32)(currentTime - lastTime) / 1000.0f;
-			lastTime = currentTime;
-
-			if (lastFrameTime < time(0))
-			{
-				SDL_SetWindowTitle(window.window, (std::to_string(frameCount) + " FPS - Dungeons").c_str());
-				frameCount = 0;
-				lastFrameTime = time(0);
-			}
-			++frameCount;
-		}
-
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
 		{
@@ -82,11 +65,11 @@ int main(int argc, char **argv)
 				break;
 
 			case SDL_QUIT:
-				window.running = false;
+				state.window.running = false;
 				break;
 
 			case SDL_WINDOWEVENT:
-				SDL_GetWindowSize(window.window, &window.width, &window.height);
+				SDL_GetWindowSize(state.window.window, &state.window.width, &state.window.height);
 				break;
 
 			default:
@@ -94,16 +77,12 @@ int main(int argc, char **argv)
 			}
 		}
 
-		// Render init
-		SDL_GL_SwapWindow(window.window);
+		state.time.Update();
+		state.window.Update();
 
-		glViewport(0, 0, window.width, window.height);
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT/* | GL_STENCIL_BUFFER_BIT*/ | GL_DEPTH_BUFFER_BIT);
+		SDL_SetWindowTitle(state.window.window, (state.window.title + " | FPS: " + std::to_string(state.time.frameTime)).c_str());
 	}
 
-	// Deinitialize
 	SDL_Quit();
-
 	return 0;
 }
