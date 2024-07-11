@@ -3,6 +3,7 @@
 #include "render/camera.h"
 #include "render/window.h"
 #include "game/state.h"
+#include "sound/sound.h"
 
 local G_State state;
 
@@ -33,8 +34,8 @@ function void KeyReleaseCallback(U8 keycode)
 int main(int argc, char **argv)
 {
 	state.window = R_Window{
-		.width = 1280,
-		.height = 720,
+		.width = 1600,
+		.height = 900,
 		.title = "Pufferfish Sandbox", 
 		.fullscreen = false,
 		.running = true,
@@ -42,12 +43,16 @@ int main(int argc, char **argv)
 	};
 
 	state.window.Create();
+	state.soundEngine.Create();
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
   
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	S_Sound sound = state.soundEngine.Load("sounds/Yuno Miles - Space Jam (Official Video) (Prod. AyeKeem).mp3");
+	sound.Start();
 
 	while (state.window.running)
 	{

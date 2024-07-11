@@ -2,8 +2,8 @@
 
 void R_Window::Create()
 {
-  if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
-      throw("Failed to initialize SDL2: %s", SDL_GetError());
+	if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+		LOG_THROW("Failed to initialize SDL2: %s", SDL_GetError());
 
 	// OpenGL Attributes
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);

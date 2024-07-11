@@ -3,6 +3,7 @@
 #include "../base/base_inc.h"
 #include "../render/window.h"
 #include "../render/camera.h"
+#include "../sound/sound.h"
 
 struct G_Time
 {
@@ -22,5 +23,6 @@ struct G_State
 	R_Window window;
 	R_Camera camera;
 	G_Time time;
+	S_SoundEngine soundEngine;
 	B8 keyboard[256] = { false };
 };
