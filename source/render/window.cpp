@@ -2,7 +2,7 @@
 
 void R_Window::Create()
 {
-	if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+	if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
 		LOG_THROW("Failed to initialize SDL2: %s", SDL_GetError());
 
 	// OpenGL Attributes
@@ -31,6 +31,11 @@ void R_Window::Create()
 
 	// VSYNC
 	SDL_GL_SetSwapInterval(this->vsync);
+
+	// OpenGL Init
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 }
 
 U32 R_Window::WindowFlags()

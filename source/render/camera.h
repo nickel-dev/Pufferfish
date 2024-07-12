@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __RENDER_CAMERA_H_
+#define __RENDER_CAMERA_H_
 
 #include "../base/base_inc.h"
 
@@ -13,3 +14,5 @@ struct R_Camera
     glm::vec3 direction = glm::normalize(pos - target);
     glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 };
+
+#endif

@@ -1,7 +1,6 @@
-#ifndef __AUDIO_H_
-#define __AUDIO_H_
+#ifndef __SOUND_SOUND_H_
+#define __SOUND_SOUND_H_
 
-#include <miniaudio.h>
 #include "../base/base_inc.h"
 
 struct S_Sound

@@ -1,7 +1,7 @@
 /* date = April 5th 2024 7:29 pm */
 
-#ifndef BASE_INC_H
-#define BASE_INC_H
+#ifndef __BASE_INC_H_
+#define __BASE_INC_H_
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -11,6 +11,7 @@
 #include "../../third_party/glm/gtc/type_ptr.hpp"
 
 #include "../../third_party/glad/glad.h"
+#include "../../third_party/miniaudio.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,7 +21,6 @@
 #include "../../third_party/SDL2/SDL.h"
 #include "../../third_party/SDL2/SDL_opengl.h"
 #include "../../third_party/SDL2/SDL_image.h"
-
 
 #include <string>
 #include <map>

@@ -1,7 +1,7 @@
 /* date = April 5th 2024 7:31 pm */
 
-#ifndef BASE_TYPES_H
-#define BASE_TYPES_H
+#ifndef __BASE_TYPES_H_
+#define __BASE_TYPES_H_
 
 #include <stdint.h>
 

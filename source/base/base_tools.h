@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __BASE_TOOLS_H_
+#define __BASE_TOOLS_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,3 +13,5 @@
 
 #define STRADD(a, b) a ## b
 #define DATA(p) STRADD("data/", p)
+
+#endif

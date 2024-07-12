@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <glad/glad.h>
+#include "../../third_party/glad/glad.h"
 #include "../base/base_inc.h"
 
 #define CHUNK_WIDTH         32

@@ -4,8 +4,8 @@
 //
 // GLSL shader manager class
 //-----------------------------------------------------------------------------
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef __RENDER_SHADER_H_
+#define __RENDER_SHADER_H_
 
 #include "../base/base_inc.h"
 

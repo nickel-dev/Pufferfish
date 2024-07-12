@@ -1,9 +1,12 @@
-#pragma once
+#ifndef __GAME_STATE_H_
+#define __GAME_STATE_H_
 
 #include "../base/base_inc.h"
 #include "../render/window.h"
 #include "../render/camera.h"
 #include "../sound/sound.h"
+#include "../input/controller.h"
+#include "../input/keyboard.h"
 
 struct G_Time
 {
@@ -20,9 +23,14 @@ struct G_Time
 
 struct G_State
 {
+	function G_State* Get();
+
 	R_Window window;
 	R_Camera camera;
 	G_Time time;
 	S_SoundEngine soundEngine;
-	B8 keyboard[256] = { false };
+	I_Controller controller;
+	I_Keyboard keyboard;
 };
+
+#endif

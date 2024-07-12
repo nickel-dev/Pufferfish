@@ -1,5 +1,12 @@
 #include "state.h"
 
+local G_State state;
+
+G_State* G_State::Get()
+{
+	return &state;
+}
+
 void G_Time::Update()
 {
 	U64 currentTime = SDL_GetTicks64();

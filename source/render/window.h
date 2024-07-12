@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __RENDER_WINDOW_H_
+#define __RENDER_WINDOW_H_
 
 #include "../base/base_inc.h"
 
@@ -16,3 +17,5 @@ struct R_Window
 	void SwitchFullscreen();
 	void Update();
 };
+
+#endif

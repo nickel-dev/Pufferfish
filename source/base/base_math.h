@@ -1,7 +1,7 @@
 /* date = April 19th 2024 10:52 pm */
 
-#ifndef BASE_MATH_H
-#define BASE_MATH_H
+#ifndef __BASE_MATH_H_
+#define __BASE_MATH_H_
 
 #include "base_types.h"
 
@@ -45,7 +45,6 @@ union Vec3
 	struct { F32 one, two, three; };
 	struct { F32 x, y, z; };
 	struct { F32 pitch, yaw, roll; };
-	struct { F32 r, g, b; };
 	struct { F32 h, s, v; };
 	
 	Vec3 operator+(Vec3 other) { return Vec3(this->a + other.a, this->b + other.b, this->c + other.c); };
@@ -77,7 +76,6 @@ union Vec4
 	struct { F32 a, b, c, d; };
 	struct { F32 one, two, three, four; };
 	struct { F32 w, x, y, z; };
-	struct { F32 a, r, g, b; };
 	
 	Vec4 operator+(Vec4 other) { return Vec4(this->a + other.a, this->b + other.b, this->c + other.c, this->d + other.d); };
 	Vec4 operator-(Vec4 other) { return Vec4(this->a - other.a, this->b - other.b, this->c - other.c, this->d - other.d); };

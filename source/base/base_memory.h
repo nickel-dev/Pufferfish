@@ -1,7 +1,7 @@
 /* date = April 6th 2024 9:28 am */
 
-#ifndef BASE_MEMORY_H
-#define BASE_MEMORY_H
+#ifndef __BASE_MEMORY_H_
+#define __BASE_MEMORY_H_
 
 /*
 A Memory Arena contains pre-allocated memory, which is accesible

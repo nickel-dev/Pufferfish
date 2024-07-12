@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __RENDER_MESH_H_
+#define __RENDER_MESH_H_
 
 #include "../base/base_inc.h"
 
@@ -23,3 +24,5 @@ struct R_Mesh
     void SetupMesh();
     void Draw();
 };
+
+#endif

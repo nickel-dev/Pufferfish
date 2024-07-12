@@ -5,35 +5,13 @@
 #include "game/state.h"
 #include "sound/sound.h"
 
-local G_State state;
-
-function void KeyPressCallback(U8 keycode)
-{
-	switch (keycode)
-	{
-	case SDL_SCANCODE_F11:
-		state.window.SwitchFullscreen();
-		break;
-
-	default:
-		state.keyboard[keycode] = true;
-		break;
-	}
-}
-
-function void KeyReleaseCallback(U8 keycode)
-{
-	switch (keycode)
-	{
-	default:
-		state.keyboard[keycode] = false;
-		break;
-	}
-}
+local G_State* state;
 
 int main(int argc, char **argv)
 {
-	state.window = R_Window{
+	state = G_State::Get();
+
+	state->window = R_Window{
 		.width = 1600,
 		.height = 900,
 		.title = "Pufferfish Sandbox", 
@@ -42,19 +20,15 @@ int main(int argc, char **argv)
 		.vsync = false
 	};
 
-	state.window.Create();
-	state.soundEngine.Create();
+	state->window.Create();
+	state->soundEngine.Create();
 
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-  
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	state->controller.FindController();
 
-	S_Sound sound = state.soundEngine.Load("sounds/Yuno Miles - Space Jam (Official Video) (Prod. AyeKeem).mp3");
+	S_Sound sound = state->soundEngine.Load("sounds/Yuno Miles - Space Jam (Official Video) (Prod. AyeKeem).mp3");
 	sound.Start();
 
-	while (state.window.running)
+	while (state->window.running)
 	{
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
@@ -62,19 +36,37 @@ int main(int argc, char **argv)
 			switch (e.type)
 			{
 			case SDL_KEYDOWN:
-				KeyPressCallback(e.key.keysym.scancode);
+				state->keyboard.KeyPressCallback(e.key.keysym.scancode);
 				break;
 
 			case SDL_KEYUP:
-				KeyReleaseCallback(e.key.keysym.scancode);
+				state->keyboard.KeyReleaseCallback(e.key.keysym.scancode);
+				break;
+			
+			case SDL_CONTROLLERDEVICEADDED:
+				state->controller.Connect(e.cdevice.which);
+				break;
+			
+			case SDL_CONTROLLERDEVICEREMOVED:
+				state->controller.Disconnect(e.cdevice.which);
+				break;
+			
+			case SDL_CONTROLLERBUTTONDOWN:
+				if (state->controller.CorrectController(e.cdevice.which))
+					state->controller.ButtonPressCallback(e.cbutton.button);
+				break;
+			
+			case SDL_CONTROLLERBUTTONUP:
+				if (state->controller.CorrectController(e.cdevice.which))
+					state->controller.ButtonReleaseCallback(e.cbutton.button);
 				break;
 
 			case SDL_QUIT:
-				state.window.running = false;
+				state->window.running = false;
 				break;
 
 			case SDL_WINDOWEVENT:
-				SDL_GetWindowSize(state.window.window, &state.window.width, &state.window.height);
+				SDL_GetWindowSize(state->window.window, &state->window.width, &state->window.height);
 				break;
 
 			default:
@@ -82,10 +74,10 @@ int main(int argc, char **argv)
 			}
 		}
 
-		state.time.Update();
-		state.window.Update();
+		state->time.Update();
+		state->window.Update();
 
-		SDL_SetWindowTitle(state.window.window, (state.window.title + " | FPS: " + std::to_string(state.time.frameTime)).c_str());
+		SDL_SetWindowTitle(state->window.window, (state->window.title + " | FPS: " + std::to_string(state->time.frameTime)).c_str());
 	}
 
 	SDL_Quit();
