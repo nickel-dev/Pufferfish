@@ -7,6 +7,7 @@
 #include "../sound/sound.h"
 #include "../input/controller.h"
 #include "../input/keyboard.h"
+#include "../entities/entity.h"
 
 struct G_Time
 {
@@ -23,14 +24,15 @@ struct G_Time
 
 struct G_State
 {
-	function G_State* Get();
-
 	R_Window window;
 	R_Camera camera;
 	G_Time time;
 	S_SoundEngine soundEngine;
 	I_Controller controller;
 	I_Keyboard keyboard;
+	std::vector<E_Entity*> entities;
+
+	function G_State* Get();
 };
 
 #endif

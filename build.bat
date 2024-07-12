@@ -14,7 +14,7 @@ set libdir=%cd%\lib\%config%
 set opts=/EHsc /MD /std:c++20
 set lopts=/SUBSYSTEM:CONSOLE
 set incs=/I %cd%\third_party
-set code=%cd%\source\*.cpp %cd%\source\game\*.cpp %cd%\source\render\*.cpp %cd%\source\base\*.cpp %cd%\third_party\glad\glad.c
+set code=%cd%\source\*.cpp %cd%\source\game\*.cpp %cd%\source\input\*.cpp %cd%\source\sound\*.cpp %cd%\source\render\*.cpp %cd%\source\base\*.cpp %cd%\third_party\glad\glad.c
 set target=%cd%\build\%project%.exe
 set libs=gdi32.lib user32.lib shell32.lib opengl32.lib SDL2.lib SDL2main.lib SDL2_image.lib
 

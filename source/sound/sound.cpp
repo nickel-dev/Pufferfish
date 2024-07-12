@@ -5,7 +5,7 @@
 void S_SoundEngine::Create()
 {
 	result = ma_engine_init(NULL, &engine);
-	LOG_ASSERT((result == MA_SUCCESS), "Error: Initializing audio engine failed. error_code: %d", result);
+	LOG_ASSERT((result == MA_SUCCESS), "Initializing audio engine failed! error: %d", result);
 }
 
 S_Sound S_SoundEngine::Load(const char *path)

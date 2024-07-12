@@ -28,7 +28,7 @@ void R_Mesh::SetupMesh()
 
   /// Normal vector
   glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(R_Vertex), (void*)(sizeof(F32) * 3));
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(R_Vertex), (void*)(sizeof(F32) * 3));
 
   /// UV Coordinate
   glEnableVertexAttribArray(2);

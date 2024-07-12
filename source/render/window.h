@@ -7,14 +7,13 @@ struct R_Window
 {
 	I32 width, height;
 	std::string title;
-	B8 fullscreen;
-	B8 running;
+	B8 fullscreen, running, vsync, showFPS;
 	SDL_Window *window;
-	B8 vsync;
 
 	void Create();
 	U32 WindowFlags();
 	void SwitchFullscreen();
+	void CheckEvents();
 	void Update();
 };
 
