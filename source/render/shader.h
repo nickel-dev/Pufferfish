@@ -15,6 +15,7 @@ class R_Shader
 {
 public:
 	 R_Shader();
+	 R_Shader(const char* path);
 	~R_Shader();
 
 	enum ShaderType
@@ -25,7 +26,7 @@ public:
 	};
 
 	// Only supports vertex and fragment (this series will only have those two)
-	bool LoadShaders(const char* vsFilename, const char* fsFilename);
+	bool Load(const char* path);
 	void Use();
 
 	GLuint GetProgram() const;

@@ -15,6 +15,8 @@ struct E_Entity
     R_Shader* shader;
     R_Texture* texture;
     R_Mesh* mesh;
+
+    void Draw();
 };
 
 #endif

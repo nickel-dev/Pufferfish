@@ -40,12 +40,12 @@ void R_Window::Create()
 	// OpenGL Init
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 }
 
 U32 R_Window::WindowFlags()
 {
-	const U32 f = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+	const U32 f = SDL_WINDOW_OPENGL | ((this->resizable) ? SDL_WINDOW_RESIZABLE : null);
 	return (this->fullscreen) ? f | SDL_WINDOW_FULLSCREEN_DESKTOP : f;
 }
 
@@ -106,11 +106,11 @@ void R_Window::CheckEvents()
 
 void R_Window::Update()
 {
-	SDL_GL_SwapWindow(window);
+	SDL_GL_SwapWindow(this->window);
 
-	glViewport(0, 0, width, height);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, this->width, this->height);
+	glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (this->showFPS)
 		SDL_SetWindowTitle(this->window, (this->title + " | FPS: " + std::to_string(state->time.frameTime)).c_str());

@@ -9,10 +9,14 @@ struct R_Camera
     glm::vec3 target = glm::vec3(0.0f, 0.0f, 0.0f);
 
     glm::vec3 front = glm::vec3(0.0f, 0.0f, 1.0f);
-    glm::vec3 right = glm::normalize(glm::cross(DIRECTION_UP, direction));
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 right = glm::normalize(glm::cross(up, direction));
 
     glm::vec3 direction = glm::normalize(pos - target);
     glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+
+    glm::mat4 ProjectionMatrix();
+    glm::mat4 ViewMatrix();
 };
 
 #endif

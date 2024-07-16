@@ -32,6 +32,4 @@
 //#include "base_math.h"
 #include "base_tools.h"
 
-local const glm::vec3 DIRECTION_UP = glm::vec3(0.0f, 1.0f, 0.0f);
-
 #endif //BASE_INC_H

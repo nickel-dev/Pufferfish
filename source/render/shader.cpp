@@ -17,6 +17,11 @@ R_Shader::R_Shader()
 	: mHandle(0)
 {}
 
+R_Shader::R_Shader(const char* path)
+	: mHandle(0)
+{
+	this->Load(path);
+}
 
 //-----------------------------------------------------------------------------
 // Destructor
@@ -30,10 +35,11 @@ R_Shader::~R_Shader()
 //-----------------------------------------------------------------------------
 // Loads vertex and fragment shaders
 //-----------------------------------------------------------------------------
-bool R_Shader::LoadShaders(const char* vsFilename, const char* fsFilename)
+bool R_Shader::Load(const char* path)
 {
-	string vsString = fileToString(vsFilename);
-	string fsString = fileToString(fsFilename);
+	string fullString = fileToString(path);
+	string vsString = string("#version 460 core\n#define VERTEX_SHADER\n") + fullString;
+	string fsString = string("#version 460 core\n#define FRAGMENT_SHADER\n") + fullString;
 	const GLchar* vsSourcePtr = vsString.c_str();
 	const GLchar* fsSourcePtr = fsString.c_str();
 

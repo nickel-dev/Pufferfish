@@ -38,6 +38,12 @@ void R_Mesh::SetupMesh()
 void R_Mesh::Draw()
 {
   glBindVertexArray(vao);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
   glDrawElements(GL_TRIANGLES, (U32)indices.size(), GL_UNSIGNED_INT, 0);
+
   glBindVertexArray(0);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
