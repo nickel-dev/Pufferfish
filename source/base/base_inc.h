@@ -26,6 +26,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 #include "base_types.h"
 #include "base_memory.h"

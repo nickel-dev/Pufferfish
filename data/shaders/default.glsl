@@ -9,11 +9,19 @@ uniform mat4 uProjection;
 uniform mat4 uView;
 
 out vec2 texCoord;
+out vec3 normal;
+out vec3 fragPos;
+out vec3 lightPos;
 
 void main()
 {
-    gl_Position =  /*uProjection * uView * uModel */ vec4(aPos, 1.0);
-    texCoord = aTexCoord;
+	vec3 uLightPos = vec3(4.0, 1.0, 2.0);
+
+  gl_Position =  uProjection * uView * uModel * vec4(aPos, 1.0);
+  texCoord = aTexCoord;
+  normal = mat3(transpose(inverse(uView * uModel))) * aNormal;
+	lightPos = vec3(uView * vec4(uLightPos, 1.0));
+  fragPos = vec3(uModel * vec4(aPos, 1.0));
 }
 
 #else
@@ -21,13 +29,37 @@ void main()
 uniform sampler2D uTexture;
 
 in vec2 texCoord;
-in float normal;
+in vec3 normal;
+in vec3 fragPos;
+in vec3 lightPos;
 
 out vec4 fragColor;
 
 void main()
 {
-    fragColor = vec4(1.0);//texture(uTexture, texCoord);
+  vec3 lightColor = vec3(1.0, 0.8, 0.8);
+  vec3 objectColor = vec3(1.0);
+
+  float ambientStrength = 0.1;
+  vec3 ambient = ambientStrength * lightColor;
+
+  // diffuse
+  vec3 norm = normalize(normal);
+  vec3 lightDir = normalize(lightPos - fragPos);
+  float diff = max(dot(norm, lightDir), 0.0);
+  vec3 diffuse = diff * lightColor;
+
+  // specular
+  float specularStrength = 0.5;
+	// the viewer is always at (0,0,0) in view-space, so viewDir is (0,0,0) - Position => -Position
+  vec3 viewDir = normalize(-fragPos);
+  vec3 reflectDir = reflect(-lightDir, norm);
+  float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+  vec3 specular = specularStrength * spec * lightColor;
+
+  vec3 result = (ambient + diffuse + specular) * objectColor;
+
+  fragColor = vec4(result, 1.0) * texture(uTexture, texCoord);
 }
 
 #endif

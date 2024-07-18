@@ -10,6 +10,7 @@ struct R_Window
 	B8 fullscreen, running, resizable, vsync, showFPS;
 	SDL_Window *window;
 
+	~R_Window();
 	void Create();
 	U32 WindowFlags();
 	void SwitchFullscreen();

@@ -5,13 +5,13 @@
 
 struct R_Texture
 {
-    U32 id;
+  U32 id;
 
-    R_Texture() {};
-    R_Texture(const char* path);
-    ~R_Texture();
-    void Load(const char* path);
-    void Use();
+  R_Texture() {};
+  R_Texture(const char* path);
+  ~R_Texture();
+  void Load(const char* path);
+  void Use();
 };
 
 #endif

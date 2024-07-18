@@ -13,9 +13,9 @@ freeing and is also a lookup table at the same time.
 
 struct Arena
 {
-	U8 *data;
-	U64 length;
-	U64 offset;
+  U8 *data;
+  U64 length;
+  U64 offset;
 };
 
 // Allocates a new arena

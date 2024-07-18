@@ -30,9 +30,8 @@ typedef I64 B64;
 typedef U64 size_t;
 typedef U64 ssize_t;
 
-#define	function	static
-#define local		static
-
-#define null        0x00000000
+#define	function static
+#define local static
+#define null 0x00000000
 
 #endif //BASE_TYPES_H

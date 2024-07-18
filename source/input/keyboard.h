@@ -5,10 +5,10 @@
 
 struct I_Keyboard
 {
-    B8 keys[256] = { false };
+  B8 keys[256] = { false };
 
-    void KeyPressCallback(U8 scancode);
-    void KeyReleaseCallback(U8 scancode);
+  void KeyPressCallback(U8 scancode);
+  void KeyReleaseCallback(U8 scancode);
 };
 
 #endif

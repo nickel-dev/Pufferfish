@@ -1,12 +1,30 @@
 #include "../base/base_inc.h"
 #include "mesh.h"
 
+// R_Vertex
 R_Vertex::R_Vertex() {}
-R_Vertex::R_Vertex(glm::u8vec3 pPos, glm::vec3 pNormal, glm::vec2 pTexCoord)
+R_Vertex::R_Vertex(glm::vec3 pPos, glm::vec3 pNormal, glm::vec2 pTexCoord)
 {
   pos = pPos;
   normal = pNormal;
   texCoord = pTexCoord;
+}
+
+// R_Mesh
+
+R_Mesh::R_Mesh() {}
+R_Mesh::R_Mesh(std::vector<R_Vertex> pVertices, std::vector<U32> pIndices)
+{
+  vertices = pVertices;
+  indices = pIndices;
+  this->SetupMesh();
+}
+
+R_Mesh::~R_Mesh()
+{
+  glDeleteBuffers(1, &vao);
+  glDeleteBuffers(1, &vbo);
+  glDeleteBuffers(1, &ebo);
 }
 
 void R_Mesh::SetupMesh()
@@ -20,7 +38,7 @@ void R_Mesh::SetupMesh()
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
   glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(R_Vertex), &vertices[0], GL_STATIC_DRAW);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(U32), &indices[0], GL_STATIC_DRAW);
 
   /// Position Vector
   glEnableVertexAttribArray(0);
@@ -28,7 +46,7 @@ void R_Mesh::SetupMesh()
 
   /// Normal vector
   glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(R_Vertex), (void*)(sizeof(F32) * 3));
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(R_Vertex), (void*)(sizeof(F32) * 3));
 
   /// UV Coordinate
   glEnableVertexAttribArray(2);
@@ -41,9 +59,7 @@ void R_Mesh::Draw()
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-  glDrawElements(GL_TRIANGLES, (U32)indices.size(), GL_UNSIGNED_INT, 0);
-
+  glDrawArrays(GL_TRIANGLES, 0, (I32)vertices.size());
+  glDrawElements(GL_TRIANGLES, (I32)indices.size(), GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

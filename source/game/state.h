@@ -11,28 +11,33 @@
 
 struct G_Time
 {
-	F32 deltaTime = 0.0f;
-	F32 timeScale = 1.0f;
-	U64 frameTime = 0;
+  F32 deltaTime = 0.0f;
+  F32 timeScale = 1.0f;
+  U64 frameTime = 0;
 
-	U64 _delta_lastTime;
-	U64 _frameTime_lastTime;
-	U64 _frameTime_counter;
+  U64 _delta_lastTime;
+  U64 _frameTime_lastTime;
+  U64 _frameTime_counter;
 
-	void Update();
+  void Update();
 };
 
 struct G_State
 {
-	R_Window window;
-	R_Camera camera;
-	G_Time time;
-	S_SoundEngine soundEngine;
-	I_Controller controller;
-	I_Keyboard keyboard;
-	std::vector<E_Entity*> entities;
+  function G_State* Get();
 
-	function G_State* Get();
+  R_Window window;
+  R_Camera camera;
+  G_Time time;
+  S_SoundEngine soundEngine;
+  I_Controller controller;
+  I_Keyboard keyboard;
+
+  // Entities
+  std::unordered_map<U64, E_Entity*> entities;
+  U64 entityCount = 0;
+
+  void AddEntity(E_Entity* entity);
 };
 
 #endif
