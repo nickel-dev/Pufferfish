@@ -22,6 +22,9 @@
 #include "../../third_party/SDL2/SDL_opengl.h"
 #include "../../third_party/SDL2/SDL_image.h"
 
+#include "../../third_party/ft2build.h"
+#include FT_FREETYPE_H
+
 #include <string>
 #include <map>
 #include <vector>

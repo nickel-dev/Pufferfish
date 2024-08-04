@@ -66,8 +66,17 @@ void I_Controller::GetStickAxes()
 	this->rightStick.y = (F32)SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY) / (F32)INT16_MAX;
 }
 
-void I_Controller::FixStickDrift()
+void I_Controller::Clamp(F32 value)
 {
-  this->rightStick = glm::round(this->rightStick * 10.0f) / 10.0f;
-  this->leftStick = glm::round(this->leftStick * 10.0f) / 10.0f;
+  // X
+  if (!(this->rightStick.x < -value) && !(this->rightStick.x > value))
+    this->rightStick.x = null;
+  if (!(this->leftStick.x < -value) && !(this->leftStick.x > value))
+    this->leftStick.x = null;
+
+  // Y
+  if (!(this->rightStick.y < -value) && !(this->rightStick.y > value))
+    this->rightStick.y = null;
+  if (!(this->leftStick.y < -value) && !(this->leftStick.y > value))
+    this->leftStick.y = null;
 }

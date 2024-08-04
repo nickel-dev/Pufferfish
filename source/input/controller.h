@@ -18,7 +18,7 @@ struct I_Controller
   void ButtonPressCallback(U8 button);
   void ButtonReleaseCallback(U8 button);
 	void GetStickAxes();
-  void FixStickDrift();
+  void Clamp(F32 value);
 };
 
 #endif

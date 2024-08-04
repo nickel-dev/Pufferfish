@@ -8,11 +8,11 @@ void S_SoundEngine::Create()
 	LOG_ASSERT((result == MA_SUCCESS), "Initializing audio engine failed! error: %d", result);
 }
 
-S_Sound S_SoundEngine::Load(const char *path)
+S_Sound S_SoundEngine::Load(const char* path)
 {
 	ma_sound* source = (ma_sound*)malloc(sizeof(ma_sound));
 	ma_result result = ma_sound_init_from_file(&engine, path, 0, NULL, NULL, source);
-    
+
 	LOG_ASSERT((result == MA_SUCCESS), "Loading sound failed! filename: %s", path);
 
     S_Sound s;

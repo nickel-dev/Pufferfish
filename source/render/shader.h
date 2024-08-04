@@ -38,7 +38,7 @@ public:
 	void SetUniform(const GLchar* name, const I32 m);
 
 	// We are going to speed up looking for uniforms by keeping their locations in a map
-	GLint GetUniformLocation(const GLchar * name);
+	GLint GetUniformLocation(const GLchar* name);
 
 private:
 
