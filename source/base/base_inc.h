@@ -5,6 +5,22 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <time.h>
+#include <stdarg.h>
+#include <math.h>
+
+#include <string>
+#include <map>
+#include <vector>
+#include <string>
+#include <format>
+#include <iostream>
+#include <unordered_map>
+#include <cstdlib>
+
 #include "../../third_party/glm/glm.hpp"
 #include "../../third_party/glm/common.hpp"
 #include "../../third_party/glm/gtx/transform.hpp"
@@ -13,27 +29,27 @@
 #include "../../third_party/glad/glad.h"
 #include "../../third_party/miniaudio.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <time.h>
-
 #include "../../third_party/SDL2/SDL.h"
 #include "../../third_party/SDL2/SDL_opengl.h"
-#include "../../third_party/SDL2/SDL_image.h"
+
+#include "../../third_party/stb_image.h"
+#include "../../third_party/stb_image_write.h"
+#include "../../third_party/tiny_gltf.h"
+
+#include "../../third_party/assimp/Importer.hpp"
+#include "../../third_party/assimp/scene.h"
+#include "../../third_party/assimp/postprocess.h"
 
 #include "../../third_party/ft2build.h"
 #include FT_FREETYPE_H
 
-#include <string>
-#include <map>
-#include <vector>
-#include <string>
-#include <unordered_map>
+#include "../../third_party/json.hpp"
+namespace Json = nlohmann;
 
 #include "base_types.h"
 #include "base_memory.h"
 //#include "base_math.h"
 #include "base_tools.h"
+#include "base_io.h"
 
 #endif //BASE_INC_H

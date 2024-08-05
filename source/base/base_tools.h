@@ -1,8 +1,10 @@
 #ifndef __BASE_TOOLS_H_
 #define __BASE_TOOLS_H_
 
+#include <cstddef>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 #define ASSERT(c) if (!c) do { (*(volatile int *)0 = 0); } while(0)
 
@@ -12,6 +14,7 @@
 #define LOG_ASSERT(c, ...) if (!c) { LOG_THROW(__VA_ARGS__); }
 
 #define STRADD(a, b) a ## b
-#define DATA(p) STRADD("data/", p)
+
+#define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 #endif

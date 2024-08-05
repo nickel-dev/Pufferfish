@@ -2,11 +2,10 @@
 #define __ENTITIES_ENTITY_H_
 
 #include "../base/base_inc.h"
-
 #include "../render/shader.h"
 #include "../render/texture.h"
 #include "../render/mesh.h"
-#include <unordered_map>
+#include "../render/model.h"
 
 enum E_EntityTag
 {
@@ -16,15 +15,14 @@ enum E_EntityTag
 
 struct E_Entity
 {
-  glm::vec3 pos, rot;
+  glm::vec3 pos, rot, scale;
 
   R_Shader* shader;
-  R_Texture* texture;
-  R_Mesh* mesh;
+  R_Model model;
 
-  U64 tag = E_ENTITY_TAG_DEFAULT;
-  std::string name = "Entity";
+  U64 id = null, tag = E_ENTITY_TAG_DEFAULT;
 
+  ~E_Entity();
   void Draw();
 };
 

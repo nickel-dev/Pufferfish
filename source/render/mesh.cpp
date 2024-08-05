@@ -1,4 +1,3 @@
-#include "../base/base_inc.h"
 #include "mesh.h"
 
 // R_Vertex
@@ -11,11 +10,11 @@ R_Vertex::R_Vertex(glm::vec3 pPos, glm::vec3 pNormal, glm::vec2 pTexCoord)
 }
 
 // R_Mesh
-
 R_Mesh::R_Mesh() {}
-R_Mesh::R_Mesh(std::vector<R_Vertex> pVertices, std::vector<U32> pIndices)
+R_Mesh::R_Mesh(std::vector<R_Vertex> pVertices, std::vector<R_Texture> pTextures, std::vector<U32> pIndices)
 {
   vertices = pVertices;
+  textures = pTextures;
   indices = pIndices;
   this->SetupMesh();
 }
@@ -55,11 +54,13 @@ void R_Mesh::SetupMesh()
 
 void R_Mesh::Draw()
 {
+  if (this->textures.size() > 0)
+    this->textures[0].Use();
+
   glBindVertexArray(vao);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-  glDrawArrays(GL_TRIANGLES, 0, (I32)vertices.size());
   glDrawElements(GL_TRIANGLES, (I32)indices.size(), GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
 }

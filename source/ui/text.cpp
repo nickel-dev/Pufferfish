@@ -43,8 +43,8 @@ void UI_Font::Load(const char* path, I32 fontSize)
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     UI_Char character = {
         texture,
@@ -75,7 +75,7 @@ void UI_Font::Draw(R_Shader& s, std::string text, float x, float y, float scale,
 {
   // activate corresponding render state
   s.Use();
-  glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
+  glm::mat4 projection = glm::ortho(0.0f, 1600.0f, 0.0f, 900.0f);
   glUniformMatrix4fv(glGetUniformLocation(s.GetProgram(), "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
   glUniform3f(glGetUniformLocation(s.GetProgram(), "uTextColor"), color.x, color.y, color.z);
   glBindVertexArray(vao);

@@ -1,6 +1,5 @@
 #include "window.h"
 #include "../game/state.h"
-#include <cstdlib>
 
 local G_State* state;
 
@@ -19,7 +18,9 @@ void R_Window::Create()
   // Create SDL Window
   this->window = SDL_CreateWindow(this->title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->width, this->height, this->WindowFlags());
   ASSERT(this->window);
-  SDL_WarpMouseInWindow(this->window, this->width / 2, this->height / 2);
+
+  if (this->centerMouse)
+    SDL_WarpMouseInWindow(this->window, this->width / 2, this->height / 2);
 
   // Create Modern GL Context
   SDL_GLContext glContext = SDL_GL_CreateContext(this->window);
@@ -40,8 +41,8 @@ void R_Window::Create()
   // OpenGL Init
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_DEPTH_TEST);
-  //glEnable(GL_CULL_FACE);
-  glEnable(GL_BLEND);
+  glEnable(GL_CULL_FACE);
+
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
@@ -55,6 +56,8 @@ void R_Window::SwitchFullscreen()
 {
   this->fullscreen = !this->fullscreen;
   SDL_SetWindowFullscreen(this->window, this->WindowFlags());
+  if (this->centerMouse)
+    SDL_WarpMouseInWindow(this->window, this->width / 2, this->height / 2);
 }
 
 void R_Window::CheckEvents()
@@ -111,7 +114,7 @@ void R_Window::Update()
   SDL_GL_SwapWindow(this->window);
 
   glViewport(0, 0, this->width, this->height);
-  glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
+  glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   if (this->showFPS)

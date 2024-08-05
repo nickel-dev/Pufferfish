@@ -7,7 +7,7 @@ uniform mat4 uProjection;
 
 void main()
 {
-  gl_Position = uProjection * vec4(aVert.x, aVert.y, 0.0, 1.0);
+  gl_Position = uProjection * vec4(aVert.x, aVert.y, -0.6, 1.0);
   texCoords = aVert.zw;
 }
 

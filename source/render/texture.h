@@ -9,8 +9,9 @@ struct R_Texture
 
   R_Texture() {};
   R_Texture(const char* path);
+  R_Texture(const char* path, B8 pixelated);
   ~R_Texture();
-  void Load(const char* path);
+  void Load(const char* path, B8 pixelated);
   void Use();
 };
 

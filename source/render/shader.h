@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// R_Shader.h by Steve Jones 
+// Shader.h by Steve Jones
 // Copyright (c) 2015-2019 Game Institute. All Rights Reserved.
 //
 // GLSL shader manager class

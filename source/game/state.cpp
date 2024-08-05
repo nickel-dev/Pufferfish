@@ -26,6 +26,6 @@ G_State* G_State::Get()
 
 void G_State::AddEntity(E_Entity* entity)
 {
-  this->entities[entityCount] = entity;
-  ++entityCount;
+  entity->id = this->entities.size();
+  this->entities[entity->id] = entity;
 }

@@ -35,7 +35,7 @@ struct G_State
 
   // Entities
   std::unordered_map<U64, E_Entity*> entities;
-  U64 entityCount = 0;
+  tinygltf::TinyGLTF gltfLoader;
 
   void AddEntity(E_Entity* entity);
 };
