@@ -34,7 +34,6 @@
 
 #include "../../third_party/stb_image.h"
 #include "../../third_party/stb_image_write.h"
-#include "../../third_party/tiny_gltf.h"
 
 #include "../../third_party/assimp/Importer.hpp"
 #include "../../third_party/assimp/scene.h"
@@ -43,12 +42,8 @@
 #include "../../third_party/ft2build.h"
 #include FT_FREETYPE_H
 
-#include "../../third_party/json.hpp"
-namespace Json = nlohmann;
-
 #include "base_types.h"
 #include "base_memory.h"
-//#include "base_math.h"
 #include "base_tools.h"
 #include "base_io.h"
 

@@ -1,4 +1,5 @@
 #include "mesh.h"
+#include "texture.h"
 
 // R_Vertex
 R_Vertex::R_Vertex() {}
@@ -56,6 +57,8 @@ void R_Mesh::Draw()
 {
   if (this->textures.size() > 0)
     this->textures[0].Use();
+  else
+    R_Texture::GetErrorTexture()->Use();
 
   glBindVertexArray(vao);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -63,4 +66,9 @@ void R_Mesh::Draw()
 
   glDrawElements(GL_TRIANGLES, (I32)indices.size(), GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
+
+  if (this->textures.size() > 0)
+    this->textures[0].UnUse();
+  else
+    R_Texture::GetErrorTexture()->UnUse();
 }

@@ -7,7 +7,7 @@ struct R_Window
 {
 	I32 width, height;
 	std::string title;
-	B8 fullscreen, running, resizable, vsync, showFPS, centerMouse;
+	B8 fullscreen, running, resizable, vsync, centerMouse;
 	SDL_Window *window;
 
 	~R_Window();

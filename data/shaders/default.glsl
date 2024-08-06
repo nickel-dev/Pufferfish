@@ -11,16 +11,12 @@ uniform mat4 uView;
 out vec2 texCoord;
 out vec3 normal;
 out vec3 fragPos;
-out vec3 lightPos;
 
 void main()
 {
-	vec3 uLightPos = vec3(4.0, 1.0, -2.0);
-
   gl_Position =  uProjection * uView * uModel * vec4(aPos, 1.0);
   texCoord = aTexCoord;
-  normal = mat3(transpose(inverse(uView * uModel))) * aNormal;
-	lightPos = vec3(uView * vec4(uLightPos, 1.0));
+  normal = mat3(transpose(inverse(uModel))) * aNormal;
   fragPos = vec3(uModel * vec4(aPos, 1.0));
 }
 
@@ -31,23 +27,27 @@ uniform sampler2D uTexture;
 in vec2 texCoord;
 in vec3 normal;
 in vec3 fragPos;
-in vec3 lightPos;
 
 out vec4 fragColor;
 
 void main()
 {
-  vec3 lightColor = vec3(0.6);
-  float ambientStrength = 0.4;
+  float ambientStrength = 0.2;
+
+  vec3 lightColor = vec3(1.0);
+  vec3 lightDirection = vec3(-0.2, -1.0, -0.3);
+  //vec3 lightDir = normalize(lightPos - fragPos);
+  //vec3 lightPos = vec3(1.2, 1.0, 2.0);
+
   vec3 ambient = ambientStrength * lightColor;
 
+  vec3 lightDir = -normalize(lightDirection);
   vec3 norm = normalize(normal);
-  vec3 lightDir = normalize(lightPos - fragPos);
   float diff = max(dot(norm, lightDir), 0.0);
+
   vec3 diffuse = diff * lightColor;
 
-  vec4 color = texture(uTexture, texCoord);
-  fragColor = vec4(ambient + diffuse, 1.0) * color;
+  fragColor = vec4(ambient + diffuse, 1.0) * texture(uTexture, texCoord);
 }
 
 #endif

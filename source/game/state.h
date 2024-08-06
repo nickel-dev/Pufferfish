@@ -4,6 +4,7 @@
 #include "../base/base_inc.h"
 #include "../render/window.h"
 #include "../render/camera.h"
+#include "../render/texture.h"
 #include "../sound/sound.h"
 #include "../input/controller.h"
 #include "../input/keyboard.h"
@@ -24,7 +25,7 @@ struct G_Time
 
 struct G_State
 {
-  function G_State* Get();
+  static G_State* Get();
 
   R_Window window;
   R_Camera camera;
@@ -32,12 +33,11 @@ struct G_State
   S_SoundEngine soundEngine;
   I_Controller controller;
   I_Keyboard keyboard;
-
-  // Entities
+  R_CubemapTexture skybox;
   std::unordered_map<U64, E_Entity*> entities;
-  tinygltf::TinyGLTF gltfLoader;
 
   void AddEntity(E_Entity* entity);
+  E_Entity* NewEntity(E_Entity entity);
 };
 
 #endif

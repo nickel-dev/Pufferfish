@@ -2,6 +2,7 @@
 #include "base/base_tools.h"
 #include "entities/entity.h"
 #include "glm/common.hpp"
+#include "glm/gtc/type_ptr.hpp"
 #include "render/mesh.h"
 #include "render/shader.h"
 #include "render/camera.h"
@@ -12,27 +13,8 @@
 #include "sound/sound.h"
 #include "ui/text.h"
 
-
 local G_State* state;
 
-/*static char* FormatString(const char* format, ...)
-{
-  va_list vl, vc;
-  va_start(vl, format);
-  va_copy(vc, vl);
-
-  char* buffer = NULL;
-  size_t s = snprintf(buffer, 0, format, vc) + 1;
-  buffer = (char*)malloc(s);
-  sprintf_s(buffer, s, format, vc);
-
-  LOG(format, vc);
-  LOG("\n");
-
-  va_end(vc);
-  va_end(vl);
-  return buffer;
-}*/
 #if _MSVC_LANG == 202002L
 #define STR_FORMAT( ...) std::format(__VA_ARGS__).c_str()
 #else
@@ -51,7 +33,6 @@ int main(int argc, char** argv)
 		.running = true,
 		.resizable = true,
 		.vsync = false,
-		.showFPS = true,
     .centerMouse = false
   };
 
@@ -59,33 +40,90 @@ int main(int argc, char** argv)
   state->soundEngine.Create();
   state->controller.FindController();
 
+  R_Texture::CreateErrorTexture();
+
   state->camera.pos.z = 0.0f;
 
-  UI_Font font("fonts/Arial.ttf", 14);
+  UI_Font font("fonts/Arial.ttf", 20);
 
   R_Shader defaultShader("shaders/default.glsl");
   R_Shader fontShader("shaders/text.glsl");
 
-  E_Entity duck = {
-		.pos = glm::vec3(0.0f, 0.0f, 5.0f),
-		.rot = glm::vec3(180.0f, 0.0f, 0.0f),
-		.scale = glm::vec3(0.01f, 0.01f, 0.01f),
+  E_Entity* duck = state->NewEntity({
+    .pos = glm::vec3(0.0f, 0.0f, 5.0f),
+		.rot = glm::vec3(0.0f, 0.0f, 0.0f),
+		.scale = glm::vec3(0.1f, 0.1f, 0.1f),
 		.shader = &defaultShader,
-		.model = R_Model("models/Duck.gltf")
-  };
-  state->AddEntity(&duck);
+		.model = R_Model("models/Cube.gltf")
+  });
 
-  E_Entity cube = {
-		.pos = glm::vec3(5.0f, 0.0f, 8.0f),
-		.rot = glm::vec3(0.0f, 40.0f, 0.0f),
-		.scale = glm::vec3(1.0f, 1.0f, 1.0f),
-		.shader = &defaultShader,
-		.model = R_Model("models/cube.gltf")
+  state->skybox.Load(
+    "skybox/1/right.jpg",
+    "skybox/1/left.jpg",
+    "skybox/1/top.jpg",
+    "skybox/1/bottom.jpg",
+    "skybox/1/front.jpg",
+    "skybox/1/back.jpg"
+  );
+  R_Shader skyboxShader("shaders/skybox.glsl");
+
+  float skyboxVertices[] = {
+        // positions
+        -1.0f,  1.0f, -1.0f,
+        -1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+        -1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f
   };
-  state->AddEntity(&cube);
+
+  unsigned int skyboxVAO, skyboxVBO;
+  glGenVertexArrays(1, &skyboxVAO);
+  glGenBuffers(1, &skyboxVBO);
+  glBindVertexArray(skyboxVAO);
+  glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+  S_Sound sound = state->soundEngine.Load("sounds/Yuno Miles - Space Jam (Official Video) (Prod. AyeKeem).mp3");
 
   F32 yaw = 90.0f, pitch = 0.0f;
-
   while (state->window.running)
   {
   	state->time.Update();
@@ -94,11 +132,13 @@ int main(int argc, char** argv)
  		state->window.CheckEvents();
   	state->window.Update();
 
+    sound.Start();
+
     state->camera.pos += state->controller.leftStick.x * glm::normalize(glm::cross(state->camera.front, state->camera.up)) * state->time.deltaTime * 2.0f;
     state->camera.pos += -state->controller.leftStick.y * state->camera.front * state->time.deltaTime * 2.0f;
 
-    yaw -= state->controller.rightStick.x * 150.0f * state->time.deltaTime;
-    pitch += state->controller.rightStick.y * 150.0f * state->time.deltaTime;
+    yaw += state->controller.rightStick.x * 150.0f * state->time.deltaTime;
+    pitch -= state->controller.rightStick.y * 150.0f * state->time.deltaTime;
 
     pitch = glm::clamp(pitch, -89.0f, 89.0f);
 
@@ -107,8 +147,19 @@ int main(int argc, char** argv)
     state->camera.dir.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     state->camera.front = glm::normalize(state->camera.dir);
 
+    glDepthMask(false);
+    skyboxShader.Use();
+    glBindVertexArray(skyboxVAO);
+    glEnable(GL_TEXTURE0);
+    state->skybox.Use();
+    skyboxShader.SetUniform("uProjection", glm::value_ptr(state->camera.ProjectionMatrix()));
+    skyboxShader.SetUniform("uView", glm::value_ptr(glm::mat4(glm::mat3(state->camera.ViewMatrix()))));
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDepthMask(true);
+
     for (U64 i = 0; i < state->entities.size(); ++i)
     {
+      defaultShader.SetUniform("uCameraPos", glm::value_ptr(state->camera.pos));
       E_Entity* entity = state->entities[i];
       entity->Draw();
     }

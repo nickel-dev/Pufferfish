@@ -1,6 +1,3 @@
-#define TINYGLTF_IMPLEMENTATION
-#include "../../third_party/tiny_gltf.h"
-
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../third_party/stb_image.h"
 

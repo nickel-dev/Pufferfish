@@ -29,3 +29,11 @@ void G_State::AddEntity(E_Entity* entity)
   entity->id = this->entities.size();
   this->entities[entity->id] = entity;
 }
+
+E_Entity* G_State::NewEntity(E_Entity entity)
+{
+  E_Entity* e = (E_Entity*)calloc(1, sizeof(E_Entity));
+  *e = entity;
+  this->AddEntity(e);
+  return e;
+}

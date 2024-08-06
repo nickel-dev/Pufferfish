@@ -1,4 +1,6 @@
 #include "model.h"
+#include "assimp/postprocess.h"
+#include "texture.h"
 
 // Credits to https://learnopengl.com/Model-Loading/Model
 
@@ -15,9 +17,9 @@ R_Model::R_Model(std::string path)
 void R_Model::Load(std::string path)
 {
   Assimp::Importer importer;
-  const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs); // TODO
+  const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_OptimizeMeshes | aiProcess_GenNormals);
 
-  if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
+  if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
   {
       std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
       return;
@@ -87,11 +89,7 @@ R_Mesh R_Model::ProcessMesh(aiMesh *mesh, const aiScene *scene)
   {
     aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
-    std::vector<R_Texture> diffuseMaps = this->LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
-    textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-
-    std::vector<R_Texture> specularMaps = this->LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-    textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+    std::vector<R_Texture> textures = this->LoadMaterialTextures(material, aiTextureType_DIFFUSE);
   }
 
   R_Mesh m(vertices, textures, indices);
@@ -100,7 +98,7 @@ R_Mesh R_Model::ProcessMesh(aiMesh *mesh, const aiScene *scene)
   return m;
 }
 
-std::vector<R_Texture> R_Model::LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName)
+std::vector<R_Texture> R_Model::LoadMaterialTextures(aiMaterial* material, aiTextureType type)
 {
   std::vector<R_Texture> textures;
 
@@ -118,7 +116,5 @@ std::vector<R_Texture> R_Model::LoadMaterialTextures(aiMaterial* material, aiTex
 void R_Model::Draw()
 {
   for(U64 i = 0; i < this->meshes.size(); ++i)
-  {
     this->meshes[i].Draw();
-  }
 }

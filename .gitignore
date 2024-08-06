@@ -38,6 +38,7 @@
 # Build Files
 build/
 build-int/
+lib/
 
 # Executables
 *.exe

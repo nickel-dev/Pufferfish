@@ -42,7 +42,6 @@ void R_Window::Create()
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
-
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
@@ -116,9 +115,6 @@ void R_Window::Update()
   glViewport(0, 0, this->width, this->height);
   glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  if (this->showFPS)
-    SDL_SetWindowTitle(this->window, (this->title + " | FPS: " + std::to_string(state->time.frameTime)).c_str());
 }
 
 R_Window::~R_Window()

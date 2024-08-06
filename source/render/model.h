@@ -3,6 +3,7 @@
 
 #include "../base/base_inc.h"
 #include "mesh.h"
+#include "shader.h"
 #include "texture.h"
 
 struct R_Model
@@ -15,7 +16,7 @@ struct R_Model
   void Load(std::string path);
   void ProcessNode(aiNode* node, const aiScene* scene);
   R_Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-  std::vector<R_Texture> LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
+  std::vector<R_Texture> LoadMaterialTextures(aiMaterial* material, aiTextureType type);
   void Draw();
 };
 
