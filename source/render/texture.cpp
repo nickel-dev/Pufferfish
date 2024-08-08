@@ -5,9 +5,7 @@ local R_Texture errorTexture;
 
 void R_Texture::CreateErrorTexture()
 {
-	const U8 img[3] = {
-		0xFF, 0x00, 0xFF,
-	};
+	const U8 img[3] = { 0xFF, 0x00, 0xFF };
 
 	glGenTextures(1, &errorTexture.id);
 	glBindTexture(GL_TEXTURE_2D, errorTexture.id);

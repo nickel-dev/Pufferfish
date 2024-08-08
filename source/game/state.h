@@ -5,6 +5,7 @@
 #include "../render/window.h"
 #include "../render/camera.h"
 #include "../render/texture.h"
+#include "../render/light.h"
 #include "../sound/sound.h"
 #include "../input/controller.h"
 #include "../input/keyboard.h"
@@ -34,6 +35,7 @@ struct G_State
   I_Controller controller;
   I_Keyboard keyboard;
   R_CubemapTexture skybox;
+  R_Light sunLight;
   std::unordered_map<U64, E_Entity*> entities;
 
   void AddEntity(E_Entity* entity);

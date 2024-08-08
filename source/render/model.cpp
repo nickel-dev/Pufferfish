@@ -88,8 +88,7 @@ R_Mesh R_Model::ProcessMesh(aiMesh *mesh, const aiScene *scene)
   if(mesh->mMaterialIndex >= 0)
   {
     aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-
-    std::vector<R_Texture> textures = this->LoadMaterialTextures(material, aiTextureType_DIFFUSE);
+    textures = this->LoadMaterialTextures(material, aiTextureType_DIFFUSE);
   }
 
   R_Mesh m(vertices, textures, indices);

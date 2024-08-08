@@ -3,6 +3,7 @@
 #include "entities/entity.h"
 #include "glm/common.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "render/light.h"
 #include "render/mesh.h"
 #include "render/shader.h"
 #include "render/camera.h"
@@ -42,6 +43,13 @@ int main(int argc, char** argv)
 
   R_Texture::CreateErrorTexture();
 
+  state->sunLight = R_Light{
+    glm::vec3(1.2f, 1.0f, 2.0f),
+    glm::vec3(-0.2f, -1.0f, -0.3f),
+    glm::vec3(0.2f, 0.2f, 0.3f),
+    glm::vec3(1.0f, 1.0f, 1.0f),
+    glm::vec3(0.6f, 0.6f, 0.5f),
+  };
   state->camera.pos.z = 0.0f;
 
   UI_Font font("fonts/Arial.ttf", 20);
@@ -52,18 +60,26 @@ int main(int argc, char** argv)
   E_Entity* duck = state->NewEntity({
     .pos = glm::vec3(0.0f, 0.0f, 5.0f),
 		.rot = glm::vec3(0.0f, 0.0f, 0.0f),
-		.scale = glm::vec3(0.1f, 0.1f, 0.1f),
+		.scale = glm::vec3(0.1f),
+		.shader = &defaultShader,
+		.model = R_Model("models/Duck.gltf")
+  });
+
+  E_Entity* ground = state->NewEntity({
+    .pos = glm::vec3(0.0f, 0.0f, 5.0f),
+		.rot = glm::vec3(0.0f, 0.0f, 0.0f),
+		.scale = glm::vec3(100.0f, 1.0f, 100.0f),
 		.shader = &defaultShader,
 		.model = R_Model("models/Cube.gltf")
   });
 
   state->skybox.Load(
-    "skybox/1/right.jpg",
-    "skybox/1/left.jpg",
-    "skybox/1/top.jpg",
-    "skybox/1/bottom.jpg",
-    "skybox/1/front.jpg",
-    "skybox/1/back.jpg"
+    "skybox/0/right.jpg",
+    "skybox/0/left.jpg",
+    "skybox/0/top.jpg",
+    "skybox/0/bottom.jpg",
+    "skybox/0/front.jpg",
+    "skybox/0/back.jpg"
   );
   R_Shader skyboxShader("shaders/skybox.glsl");
 
@@ -113,15 +129,21 @@ int main(int argc, char** argv)
   };
 
   unsigned int skyboxVAO, skyboxVBO;
-  glGenVertexArrays(1, &skyboxVAO);
-  glGenBuffers(1, &skyboxVBO);
-  glBindVertexArray(skyboxVAO);
-  glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+  {
+    glGenVertexArrays(1, &skyboxVAO);
+    glGenBuffers(1, &skyboxVBO);
+    glBindVertexArray(skyboxVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+  }
 
-  S_Sound sound = state->soundEngine.Load("sounds/Yuno Miles - Space Jam (Official Video) (Prod. AyeKeem).mp3");
+  // Framebuffer for Shadow Map
+	unsigned int shadowMapFBO;
+	glGenFramebuffers(1, &shadowMapFBO);
+
+  S_Sound sound = state->soundEngine.Load("sounds/messysloth - turnback.wav");
 
   F32 yaw = 90.0f, pitch = 0.0f;
   while (state->window.running)
@@ -134,8 +156,8 @@ int main(int argc, char** argv)
 
     sound.Start();
 
-    state->camera.pos += state->controller.leftStick.x * glm::normalize(glm::cross(state->camera.front, state->camera.up)) * state->time.deltaTime * 2.0f;
-    state->camera.pos += -state->controller.leftStick.y * state->camera.front * state->time.deltaTime * 2.0f;
+    state->camera.pos += state->controller.leftStick.x * glm::normalize(glm::cross(state->camera.front, state->camera.up)) * state->time.deltaTime * 5.0f;
+    state->camera.pos += -state->controller.leftStick.y * state->camera.front * state->time.deltaTime * 5.0f;
 
     yaw += state->controller.rightStick.x * 150.0f * state->time.deltaTime;
     pitch -= state->controller.rightStick.y * 150.0f * state->time.deltaTime;
@@ -174,6 +196,8 @@ int main(int argc, char** argv)
 
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
   }
 
   return EXIT_SUCCESS;

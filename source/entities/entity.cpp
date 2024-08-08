@@ -21,10 +21,14 @@ void E_Entity::Draw()
   this->shader->SetUniform("uProjection", glm::value_ptr(state->camera.ProjectionMatrix()));
   this->shader->SetUniform("uView", glm::value_ptr(state->camera.ViewMatrix()));
 
-  this->model.Draw();
+  this->shader->SetUniform("light.pos", state->sunLight.pos);
+  this->shader->SetUniform("light.dir", state->sunLight.dir);
 
-  glBindTexture(GL_TEXTURE_2D, 0);
-  glUseProgram(0);
+  this->shader->SetUniform("light.ambient", state->sunLight.ambient);
+  this->shader->SetUniform("light.diffuse", state->sunLight.diffuse);
+  this->shader->SetUniform("light.specular", state->sunLight.specular);
+
+  this->model.Draw();
 }
 
 E_Entity::~E_Entity()
